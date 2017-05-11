@@ -1,7 +1,6 @@
 package net.dataforte.infinispan.playground.embeddedhotrod;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 import org.infinispan.Cache;
 import org.infinispan.client.hotrod.RemoteCache;
@@ -80,6 +79,7 @@ public class SimpleEmbeddedHotRodServer {
            assert s.equals(remoteCache.get(s));
            System.out.printf("%s...", s);
         }
+        System.console().readLine();
 
         System.out.println("\nDone !");
         remoteCacheManager.stop();

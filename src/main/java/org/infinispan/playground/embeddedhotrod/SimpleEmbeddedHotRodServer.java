@@ -1,4 +1,4 @@
-package net.dataforte.infinispan.playground.embeddedhotrod;
+package org.infinispan.playground.embeddedhotrod;
 
 import java.io.IOException;
 
@@ -14,29 +14,20 @@ import org.infinispan.server.hotrod.configuration.HotRodServerConfigurationBuild
 public class SimpleEmbeddedHotRodServer {
 
     public static void main(String[] args) throws IOException {
-        org.infinispan.configuration.cache.ConfigurationBuilder embeddedBuilder = new org.infinispan.configuration.cache.ConfigurationBuilder();
-        embeddedBuilder
-           .dataContainer()
-              .keyEquivalence(new AnyServerEquivalence())
-              .valueEquivalence(new AnyServerEquivalence())
-           .compatibility()
-              .enable();
-        DefaultCacheManager defaultCacheManager = new DefaultCacheManager(embeddedBuilder.build());
-        /*
-         * Use the following for XML configuration
-           InputStream is = SimpleEmbeddedHotRodServer.class.getResourceAsStream("/infinispan.xml");
-           DefaultCacheManager defaultCacheManager = new DefaultCacheManager(is);
-        */
-        Cache<String, String> embeddedCache = defaultCacheManager.getCache();
+        // Create a cache manager
+        DefaultCacheManager defaultCacheManager = new DefaultCacheManager("infinispan.xml");
+        Cache<String, String> embeddedCache = defaultCacheManager.getCache("default");
 
+        // Create a Hot Rod server which exposes the cache manager
         HotRodServerConfiguration build = new HotRodServerConfigurationBuilder().build();
         HotRodServer server = new HotRodServer();
         server.start(build, defaultCacheManager);
 
+        // Create a Hot Rod client
         ConfigurationBuilder remoteBuilder = new ConfigurationBuilder();
         remoteBuilder.addServers("localhost");
         RemoteCacheManager remoteCacheManager = new RemoteCacheManager(remoteBuilder.build());
-        RemoteCache<String, String> remoteCache = remoteCacheManager.getCache();
+        RemoteCache<String, String> remoteCache = remoteCacheManager.getCache("default");
 
         System.out.print("Inserting data into remote cache...");
         for(char ch='A'; ch<='Z'; ch++) {
@@ -79,7 +70,6 @@ public class SimpleEmbeddedHotRodServer {
            assert s.equals(remoteCache.get(s));
            System.out.printf("%s...", s);
         }
-        System.console().readLine();
 
         System.out.println("\nDone !");
         remoteCacheManager.stop();

@@ -1,33 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<Configuration name="Infinispan" monitorInterval="60" shutdownHook="disable">
+   <Properties>
+      <Property name="path">${sys:infinispan.server.log.path}</Property>
+      <Property name="accessLogPattern">%X{address} %X{user} [%d{dd/MMM/yyyy:HH:mm:ss Z}] &quot;%X{method} %m %X{protocol}&quot; %X{status} %X{requestSize} %X{responseSize} %X{duration}%n</Property>
+   </Properties>
+   <Appenders>
+      <!-- Colored output on the console -->
+      <Console name="STDOUT">
+         <PatternLayout pattern="%highlight{%d{HH:mm:ss,SSS} %-5p (%t) [%c] %m%throwable}{INFO=normal, DEBUG=normal, TRACE=normal}%n"/>
+      </Console>
 
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/" debug="false">
+      <!-- Rolling file -->
+      <RollingFile name="FILE" createOnDemand="true"
+                   fileName="${path}/server.log"
+                   filePattern="${path}/server.log.%d{yyyy-MM-dd}-%i">
+         <Policies>
+            <OnStartupTriggeringPolicy />
+            <SizeBasedTriggeringPolicy size="100 MB" />
+            <TimeBasedTriggeringPolicy />
+         </Policies>
+         <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p (%t) [%c] %m%throwable%n"/>
+      </RollingFile>
+   </Appenders>
 
-   <appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
-      <param name="Threshold" value="INFO"/>
-      <param name="Target" value="System.out"/>
+   <Loggers>
+      <Root level="INFO">
+         <AppenderRef ref="STDOUT" level="INFO"/>
+         <AppenderRef ref="FILE"/>
+      </Root>
 
-      <layout class="org.apache.log4j.PatternLayout">
-         <!-- The default pattern: Date Priority [Category] Message\n -->
-         <param name="ConversionPattern" value="%d %-5p (%t) [%c{1}] %m%n"/>
-      </layout>
-   </appender>
+      <Logger name="com.arjuna" level="WARN"/>
 
-   <category name="org.infinispan">
-      <priority value="INFO"/>
-   </category>
-
-   <category name="org.jgroups">
-      <priority value="INFO"/>
-   </category>
-
-   <!-- ======================= -->
-   <!-- Setup the Root category -->
-   <!-- ======================= -->
-
-   <root>
-      <priority value="INFO"/>
-      <appender-ref ref="CONSOLE"/>
-   </root>
-
-</log4j:configuration>
+   </Loggers>
+</Configuration>

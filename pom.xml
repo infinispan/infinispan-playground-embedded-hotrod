@@ -1,39 +1,35 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
    <modelVersion>4.0.0</modelVersion>
-   <groupId>net.dataforte.infinispan</groupId>
+   <groupId>org.infinispan.playground</groupId>
    <artifactId>infinispan-playground-embedded-hotrod</artifactId>
    <version>0.0.1-SNAPSHOT</version>
-   <name>Infinispan Playground</name>
+   <name>Infinispan Playground Embedded Hot Rod Server</name>
 
    <properties>
-      <version.org.infinispan>9.0.0.Final</version.org.infinispan>
+      <version.infinispan>11.0.1.Final</version.infinispan>
+      <version.log4j>2.13.3</version.log4j>
    </properties>
 
    <dependencies>
       <dependency>
          <groupId>org.infinispan</groupId>
-         <artifactId>infinispan-embedded</artifactId>
-         <version>${version.org.infinispan}</version>
+         <artifactId>infinispan-core</artifactId>
+         <version>${version.infinispan}</version>
       </dependency>
       <dependency>
          <groupId>org.infinispan</groupId>
          <artifactId>infinispan-server-hotrod</artifactId>
-         <version>${version.org.infinispan}</version>
+         <version>${version.infinispan}</version>
       </dependency>
       <dependency>
          <groupId>org.infinispan</groupId>
-         <artifactId>infinispan-cli-interpreter</artifactId>
-         <version>${version.org.infinispan}</version>
-      </dependency>
-      <dependency>
-         <groupId>org.infinispan</groupId>
-         <artifactId>infinispan-remote</artifactId>
-         <version>${version.org.infinispan}</version>
+         <artifactId>infinispan-client-hotrod</artifactId>
+         <version>${version.infinispan}</version>
       </dependency>
       <dependency>
          <groupId>org.apache.logging.log4j</groupId>
          <artifactId>log4j-core</artifactId>
-         <version>2.7</version>
+         <version>${version.log4j}</version>
       </dependency>
    </dependencies>
 
@@ -43,7 +39,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>
-            <version>3.1</version>
+            <version>3.8.1</version>
             <configuration>
                <source>1.8</source>
                <target>1.8</target>
@@ -69,7 +65,7 @@
                   <argument>-Dcom.sun.management.jmxremote.ssl=false</argument -->
                   <argument>-classpath</argument>
                   <classpath/>
-                  <argument>net.dataforte.infinispan.playground.embeddedhotrod.SimpleEmbeddedHotRodServer</argument>
+                  <argument>org.infinispan.playground.embeddedhotrod.SimpleEmbeddedHotRodServer</argument>
                </arguments>
             </configuration>
          </plugin>

@@ -1,4 +1,4 @@
-infinispan-playground-embedded-hotrod
+Infinispan Embedded Hot Rod Server
 =====================================
 
-Infinispan Playground Embedded HotRod Server
+This project demonstrates how to add a Hot Rod server on top of an embedded Infininispan cache manager.

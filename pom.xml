@@ -7,7 +7,7 @@
 
    <properties>
       <version.infinispan>11.0.1.Final</version.infinispan>
-      <version.log4j>2.13.3</version.log4j>
+      <version.log4j>2.16.0</version.log4j>
    </properties>
 
    <dependencies>

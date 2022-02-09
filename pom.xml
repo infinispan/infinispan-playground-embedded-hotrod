@@ -6,7 +6,7 @@
    <name>Infinispan Playground Embedded Hot Rod Server</name>
 
    <properties>
-      <version.infinispan>11.0.1.Final</version.infinispan>
+      <version.infinispan>11.0.6.Final</version.infinispan>
       <version.log4j>2.13.3</version.log4j>
    </properties>
 
